@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SolarVex | Global Clean Energy Solution Provider</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@300;400;500;600;700;800&family=Barlow+Condensed:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --green: #3ab54a;
+    --green-dark: #2a9238;
+    --navy: #0d1b2a;
+    --text: #1a1a1a;
+    --muted: #666;
+    --bg-light: #f5f7f5;
+    --white: #fff;
+    --border: #e0e5e0;
+  }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Barlow', sans-serif; color: var(--text); overflow-x: hidden; }
+
+  /* ══════════════════════════════════
+     NAVBAR — floating pill, Growatt-style
+  ══════════════════════════════════ */
+
+  /* Outer wrapper: fixed strip across top, gives the pill its floating gap */
+  .nav-wrapper {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+    padding: 10px 20px; /* gap above & sides so pill floats */
+    pointer-events: none; /* let clicks pass through the gap */
+  }
+
+  /* The pill itself */
+  nav {
+    pointer-events: all;
+    background: #fff;
+    border: 1px solid #e2e6e2;
+    border-radius: 40px;          /* full pill */
+    box-shadow: 0 2px 16px rgba(0,0,0,0.07);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 20px 0 16px;
+    height: 52px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  /* Logo */
+  .logo { display: flex; align-items: center; gap: 6px; text-decoration: none; flex-shrink: 0; }
+
+  /* Growatt-style "G" circle icon */
+  .logo-icon-wrap {
+    width: 30px; height: 30px; border-radius: 50%;
+    border: 2px solid var(--green);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .logo-icon-wrap svg { width: 14px; height: 14px; fill: var(--green); }
+
+  .logo-text {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 20px; font-weight: 800; letter-spacing: 2px;
+    color: #111; text-transform: uppercase;
+  }
+  .logo-text span { color: var(--green); }
+
+  /* Nav links — centered */
+  .nav-links { display: flex; align-items: center; gap: 0; }
+  .nav-links a {
+    padding: 7px 14px; font-size: 13.5px; font-weight: 500; color: #222;
+    text-decoration: none; border-radius: 20px;
+    transition: color .18s, background .18s;
+    white-space: nowrap;
+  }
+  .nav-links a:hover { color: var(--green); }
+
+  /* Right icon group — 3 icon buttons with a left divider line */
+  .nav-right {
+    display: flex; align-items: center; gap: 2px; flex-shrink: 0;
+    padding-left: 12px;
+    border-left: 1px solid #e0e0e0;
+    margin-left: 8px;
+  }
+  .nav-icon-btn {
+    width: 34px; height: 34px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; border: none; background: transparent;
+    transition: background .18s;
+  }
+  .nav-icon-btn:hover { background: #f2f2f2; }
+  .nav-icon-btn svg {
+    width: 18px; height: 18px; color: #444;
+    stroke: currentColor; fill: none; stroke-width: 1.8;
+  }
+  .nav-icon-btn:hover svg { color: var(--green); }
+
+  /* Hamburger (mobile) */
+  .hamburger { display: none; cursor: pointer; flex-direction: column; gap: 5px; padding: 4px; }
+  .hamburger span { width: 20px; height: 2px; background: #333; border-radius: 2px; display: block; }
+
+  /* ══════════════════════════════════
+     HERO — light sky photo, like Growatt
+  ══════════════════════════════════ */
+  .hero {
+    margin-top: 0; position: relative;
+    height: 540px; overflow: hidden;
+    background: #c8dff0;
+  }
+
+  /* Background photo — bright sky/beach/modern home */
+  .hero-bg {
+    position: absolute; inset: 0;
+    background: url('https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=1800&q=85') center 40%/cover no-repeat;
+    opacity: 1;
+  }
+
+  /* Subtle left gradient so text is always readable */
+  .hero-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(
+      90deg,
+      rgba(255,255,255,0.82) 0%,
+      rgba(255,255,255,0.55) 38%,
+      rgba(255,255,255,0.08) 65%,
+      transparent 100%
+    );
+  }
+
+  /* Text block — left side */
+  .hero-content {
+    position: relative; z-index: 3; height: 100%;
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 0 72px; max-width: 580px;
+  }
+
+  .hero-eyebrow {
+    font-size: 12px; font-weight: 700; letter-spacing: 2.5px;
+    text-transform: uppercase; color: var(--green);
+    margin-bottom: 14px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .hero-eyebrow::before {
+    content: ''; display: block; width: 24px; height: 2px; background: var(--green);
+  }
+
+  .hero h1 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 52px; font-weight: 800; line-height: 1.05;
+    color: #0d2a1a;
+    letter-spacing: 0.5px; margin-bottom: 0;
+    text-transform: uppercase;
+  }
+  /* Growatt style: two lines, no color split, just dark text */
+  .hero h1 .line2 { display: block; }
+
+  .hero-rule {
+    width: 56px; height: 4px; background: var(--green);
+    border-radius: 2px; margin: 18px 0;
+  }
+
+  .hero p {
+    font-size: 15px; color: #3a4a3a; line-height: 1.65;
+    margin-bottom: 28px; max-width: 420px;
+  }
+
+  .hero-cta { display: flex; gap: 12px; align-items: center; }
+  .btn-primary {
+    background: var(--green); color: white; padding: 12px 26px;
+    border-radius: 5px; font-size: 14px; font-weight: 600; text-decoration: none;
+    transition: background .2s, transform .15s; letter-spacing: 0.3px;
+    border: none; cursor: pointer;
+  }
+  .btn-primary:hover { background: var(--green-dark); transform: translateY(-1px); }
+  .btn-ghost {
+    background: transparent; color: #0d2a1a; padding: 11px 24px;
+    border-radius: 5px; font-size: 14px; font-weight: 600; text-decoration: none;
+    border: 1.5px solid rgba(0,0,0,0.25);
+    transition: border-color .2s, color .2s, background .2s;
+  }
+  .btn-ghost:hover { border-color: var(--green); color: var(--green); background: rgba(58,181,74,0.05); }
+
+  /* Product lineup — right side, bottom-anchored, like Growatt */
+  .hero-products {
+    position: absolute; right: 5%; bottom: 0;
+    display: flex; gap: 16px; align-items: flex-end; z-index: 3;
+    height: 78%;
+  }
+
+  /* Each product card is a "floating" unit with drop shadow */
+  .hero-product {
+    position: relative;
+    display: flex; flex-direction: column; align-items: center; justify-content: flex-end;
+    background: white;
+    border-radius: 14px 14px 0 0;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.14), 0 2px 8px rgba(0,0,0,0.08);
+    overflow: hidden;
+    transition: transform .3s;
+    padding-bottom: 16px;
+  }
+  .hero-product:hover { transform: translateY(-6px); }
+
+  .hero-product.battery  { width: 90px;  height: 55%; }
+  .hero-product.inverter { width: 105px; height: 80%; }
+  .hero-product.storage  { width: 115px; height: 70%; }
+
+  /* Inner product visual */
+  .product-body {
+    flex: 1; width: 100%;
+    display: flex; align-items: center; justify-content: center;
+    position: relative; overflow: hidden;
+  }
+  .product-body-bg {
+    position: absolute; inset: 0;
+    background: linear-gradient(160deg, #f4f8f4 0%, #ddeedd 100%);
+  }
+  .product-emoji { font-size: 28px; position: relative; z-index: 1; }
+
+  /* Growatt-style product panel mockup lines */
+  .product-panel {
+    position: absolute; inset: 8px;
+    border: 1px solid rgba(58,181,74,0.2);
+    border-radius: 6px; z-index: 1;
+  }
+  .product-panel::before {
+    content: '';
+    position: absolute; top: 20%; left: 12%; right: 12%; height: 1px;
+    background: rgba(58,181,74,0.15);
+  }
+  .product-panel::after {
+    content: '';
+    position: absolute; top: 40%; left: 12%; right: 12%; height: 1px;
+    background: rgba(58,181,74,0.15);
+  }
+
+  /* Product brand stripe at top */
+  .product-stripe {
+    width: 100%; height: 5px;
+    background: linear-gradient(90deg, var(--green), #6edB6e);
+    flex-shrink: 0;
+    order: -1;
+  }
+
+  /* Product label at bottom */
+  .product-foot {
+    padding: 0 8px;
+    display: flex; flex-direction: column; align-items: center; gap: 3px;
+  }
+  .product-name {
+    font-size: 9px; font-weight: 700; letter-spacing: 1px;
+    text-transform: uppercase; color: var(--green);
+  }
+  .product-model {
+    font-size: 8px; color: #999; letter-spacing: 0.5px;
+  }
+
+  /* Slide dots */
+  .hero-dots {
+    position: absolute; bottom: 20px; left: 72px;
+    display: flex; gap: 7px; z-index: 4; align-items: center;
+  }
+  .dot {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: rgba(0,0,0,0.2); cursor: pointer;
+    transition: all .25s;
+  }
+  .dot.active { background: var(--green); width: 22px; border-radius: 4px; }
+
+  /* ══════════════════════════════════
+     SECTION HEADER
+  ══════════════════════════════════ */
+  .section-header { text-align: center; padding: 60px 40px 40px; }
+  .section-header h2 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 36px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--navy); margin-bottom: 10px;
+  }
+  .section-line { width: 48px; height: 4px; background: var(--green); margin: 0 auto; border-radius: 2px; }
+
+  /* ══════════════════════════════════
+     SOLUTIONS
+  ══════════════════════════════════ */
+  .solutions-section { background: white; }
+  .solutions-grid { display: grid; grid-template-columns: repeat(4, 1fr); }
+  .solution-card { position: relative; height: 320px; overflow: hidden; cursor: pointer; }
+  .solution-card img { width: 100%; height: 100%; object-fit: cover; transition: transform .5s ease; filter: brightness(0.65); }
+  .solution-card:hover img { transform: scale(1.06); filter: brightness(0.5); }
+  .solution-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 60%); transition: background .3s; }
+  .solution-card:hover .solution-overlay { background: linear-gradient(to top, rgba(13,27,42,0.85) 0%, rgba(13,27,42,0.2) 100%); }
+  .solution-content { position: absolute; bottom: 0; left: 0; right: 0; padding: 24px 28px; }
+  .solution-num { font-family: 'Barlow Condensed', sans-serif; font-size: 13px; font-weight: 700; color: var(--green); letter-spacing: 1px; margin-bottom: 6px; }
+  .solution-title { font-family: 'Barlow Condensed', sans-serif; font-size: 22px; font-weight: 800; color: white; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+  .solution-line { width: 32px; height: 3px; background: var(--green); border-radius: 2px; margin-bottom: 10px; }
+  .solution-desc { font-size: 13px; color: rgba(255,255,255,0); line-height: 1.5; transition: color .3s; }
+  .solution-card:hover .solution-desc { color: rgba(255,255,255,0.82); }
+
+  /* ══════════════════════════════════
+     SUPPORT
+  ══════════════════════════════════ */
+  .support-section { background: var(--bg-light); padding-bottom: 60px; }
+  .support-grid { display: flex; justify-content: center; gap: 0; flex-wrap: wrap; padding: 0 40px; max-width: 900px; margin: 0 auto; }
+  .support-item { display: flex; flex-direction: column; align-items: center; gap: 14px; padding: 30px 40px; cursor: pointer; transition: transform .2s; text-align: center; min-width: 140px; }
+  .support-item:hover { transform: translateY(-4px); }
+  .support-icon { width: 72px; height: 72px; border-radius: 16px; display: flex; align-items: center; justify-content: center; background: white; box-shadow: 0 4px 16px rgba(0,0,0,0.08); font-size: 28px; transition: box-shadow .2s; }
+  .support-item:hover .support-icon { box-shadow: 0 8px 24px rgba(58,181,74,0.2); }
+  .support-label { font-size: 13px; font-weight: 700; color: var(--navy); text-transform: uppercase; letter-spacing: 1px; }
+  .support-desc { font-size: 12px; color: var(--muted); line-height: 1.5; }
+
+  /* ══════════════════════════════════
+     STATS BANNER
+  ══════════════════════════════════ */
+  .stats-banner { position: relative; overflow: hidden; padding: 80px 40px; background: linear-gradient(135deg, #0a2a1a 0%, #0d1b2a 100%); text-align: center; }
+  .stats-banner-bg { position: absolute; inset: 0; background: url('https://images.unsplash.com/photo-1509391366360-2e959784a276?w=1600&q=80') center/cover; opacity: 0.12; }
+  .stats-banner-content { position: relative; z-index: 2; }
+  .stats-banner h2 { font-family: 'Barlow Condensed', sans-serif; font-size: 32px; font-weight: 800; text-transform: uppercase; color: white; letter-spacing: 3px; margin-bottom: 8px; }
+  .stats-sub { font-size: 13px; font-weight: 600; color: var(--green); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 48px; }
+  .stats-grid { display: flex; justify-content: center; gap: 80px; flex-wrap: wrap; }
+  .stat-item { text-align: center; }
+  .stat-number { font-family: 'Barlow Condensed', sans-serif; font-size: 56px; font-weight: 800; color: white; line-height: 1; }
+  .stat-number sub { font-size: 28px; color: var(--green); }
+  .stat-label { font-size: 11px; font-weight: 600; color: rgba(255,255,255,0.5); letter-spacing: 1.5px; text-transform: uppercase; margin-top: 8px; }
+
+  /* ══════════════════════════════════
+     MEDIA
+  ══════════════════════════════════ */
+  .media-section { background: white; padding: 60px 80px; }
+  .media-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 32px; }
+  .media-header h2 { font-family: 'Barlow Condensed', sans-serif; font-size: 28px; font-weight: 800; letter-spacing: 2px; color: var(--navy); text-transform: uppercase; }
+  .media-header a { font-size: 13px; color: var(--green); text-decoration: none; font-weight: 600; border: 1px solid var(--green); padding: 6px 16px; border-radius: 4px; }
+  .media-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 32px; }
+  .media-featured { display: flex; flex-direction: column; border: 1px solid var(--border); border-radius: 10px; overflow: hidden; cursor: pointer; transition: box-shadow .2s; }
+  .media-featured:hover { box-shadow: 0 8px 32px rgba(0,0,0,0.1); }
+  .media-featured-img { height: 200px; background: linear-gradient(135deg, #0d3020, #1a5535); display: flex; align-items: center; justify-content: center; }
+  .media-featured-img span { font-size: 48px; }
+  .media-featured-body { padding: 20px; }
+  .media-date { font-size: 12px; color: var(--muted); margin-bottom: 8px; }
+  .media-title { font-size: 16px; font-weight: 700; color: var(--navy); line-height: 1.4; }
+  .media-list { display: flex; flex-direction: column; gap: 20px; }
+  .media-item { padding-bottom: 20px; border-bottom: 1px solid var(--border); cursor: pointer; }
+  .media-item:last-child { border-bottom: none; }
+  .media-item .media-date { margin-bottom: 6px; }
+  .media-item .media-title { font-size: 14px; font-weight: 600; color: var(--navy); line-height: 1.4; }
+  .media-item .media-title:hover { color: var(--green); }
+
+  /* ══════════════════════════════════
+     NEWSLETTER
+  ══════════════════════════════════ */
+  .newsletter { background: var(--bg-light); padding: 48px 40px; text-align: center; border-top: 1px solid var(--border); }
+  .newsletter p { font-size: 13px; color: var(--muted); margin-bottom: 16px; letter-spacing: 1px; text-transform: uppercase; font-weight: 600; }
+  .newsletter-form { display: flex; justify-content: center; }
+  .newsletter-btn { background: var(--green); color: white; padding: 13px 40px; border: none; border-radius: 24px; font-size: 14px; font-weight: 600; cursor: pointer; transition: background .2s; font-family: 'Barlow', sans-serif; }
+  .newsletter-btn:hover { background: var(--green-dark); }
+
+  /* ══════════════════════════════════
+     FOOTER
+  ══════════════════════════════════ */
+  footer { background: var(--navy); color: rgba(255,255,255,0.75); padding: 48px 80px 24px; }
+  .footer-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 32px; margin-bottom: 40px; }
+  .footer-col h4 { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: white; margin-bottom: 16px; }
+  .footer-col a { display: block; font-size: 13px; color: rgba(255,255,255,0.6); text-decoration: none; margin-bottom: 8px; transition: color .2s; }
+  .footer-col a:hover { color: var(--green); }
+  .footer-social { display: flex; gap: 12px; margin-top: 8px; }
+  .social-btn { width: 34px; height: 34px; border-radius: 50%; background: rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: background .2s; font-size: 14px; }
+  .social-btn:hover { background: var(--green); }
+  .footer-bottom { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px; text-align: center; font-size: 12px; color: rgba(255,255,255,0.4); }
+
+  /* ══════════════════════════════════
+     RESPONSIVE
+  ══════════════════════════════════ */
+  @media (max-width: 900px) {
+    .solutions-grid { grid-template-columns: repeat(2, 1fr); }
+    .stats-grid { gap: 40px; }
+    .media-grid { grid-template-columns: 1fr; }
+    .footer-grid { grid-template-columns: repeat(2, 1fr); }
+    .nav-links { display: none; }
+    .hamburger { display: flex; }
+    .hero-products { display: none; }
+    .hero h1 { font-size: 38px; }
+    .hero-content { padding: 0 30px; }
+    .media-section { padding: 40px; }
+    footer { padding: 40px; }
+    .nav-wrapper { padding: 8px 12px; }
+  }
+  @media (max-width: 600px) {
+    .solutions-grid { grid-template-columns: 1fr; }
+    .section-header { padding: 40px 20px 30px; }
+    .hero h1 { font-size: 30px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ════════════════ NAVBAR ════════════════ -->
+<div class="nav-wrapper">
+  <nav>
+    <a href="#" class="logo">
+      <div class="logo-icon-wrap">
+        <!-- Circle with "S" letter, like Growatt's "G" circle -->
+        <svg viewBox="0 0 24 24" width="16" height="16"><text x="3" y="17" font-family="Arial" font-weight="900" font-size="15" fill="#3ab54a">S</text></svg>
+      </div>
+      <span class="logo-text">Solar<span>Vex</span></span>
+    </a>
+
+    <div class="nav-links">
+      <a href="#">About SolarVex</a>
+      <a href="#">Solutions</a>
+      <a href="#">Products</a>
+      <a href="#">Cases</a>
+      <a href="#">Community</a>
+      <a href="#">Support &amp; Contact</a>
+    </div>
+
+    <div class="nav-right">
+      <button class="nav-icon-btn" aria-label="Search">
+        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+      </button>
+      <button class="nav-icon-btn" aria-label="Language">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+      </button>
+      <button class="nav-icon-btn" aria-label="Account">
+        <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      </button>
+      <div class="hamburger">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+  </nav>
+</div>
+
+<!-- ════════════════ HERO ════════════════ -->
+<section class="hero">
+  <!-- Background: bright modern house / sky photo -->
+  <div class="hero-bg"></div>
+  <!-- Left-side white fade so text stays legible -->
+  <div class="hero-overlay"></div>
+
+  <!-- TEXT — left side -->
+  <div class="hero-content">
+    <div class="hero-eyebrow">Next-Gen Solar Technology</div>
+    <h1>
+      FUTURE PROOF
+      <span class="line2">BATTERY READY</span>
+      PV SOLUTION
+    </h1>
+    <div class="hero-rule"></div>
+    <p>Powering homes, businesses, and communities with clean, intelligent solar energy systems built for tomorrow.</p>
+    <div class="hero-cta">
+      <a href="#" class="btn-primary">Explore Solutions</a>
+      <a href="#" class="btn-ghost">View Products</a>
+    </div>
+  </div>
+
+  <!-- PRODUCT LINEUP — right, bottom-anchored (mimics Growatt hardware lineup) -->
+  <div class="hero-products">
+    <!-- Small battery box -->
+    <div class="hero-product battery">
+      <div class="product-stripe"></div>
+      <div class="product-body">
+        <div class="product-body-bg"></div>
+        <div class="product-panel"></div>
+        <span class="product-emoji">🔋</span>
+      </div>
+      <div class="product-foot">
+        <div class="product-name">Battery</div>
+        <div class="product-model">SV-BAT5</div>
+      </div>
+    </div>
+    <!-- Tall inverter (tallest) -->
+    <div class="hero-product inverter">
+      <div class="product-stripe"></div>
+      <div class="product-body">
+        <div class="product-body-bg"></div>
+        <div class="product-panel"></div>
+        <span class="product-emoji">⚡</span>
+      </div>
+      <div class="product-foot">
+        <div class="product-name">Inverter</div>
+        <div class="product-model">SV-INV10</div>
+      </div>
+    </div>
+    <!-- Storage unit -->
+    <div class="hero-product storage">
+      <div class="product-stripe"></div>
+      <div class="product-body">
+        <div class="product-body-bg"></div>
+        <div class="product-panel"></div>
+        <span class="product-emoji">☀️</span>
+      </div>
+      <div class="product-foot">
+        <div class="product-name">PV Panel</div>
+        <div class="product-model">SV-PNL400</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Slide dots (bottom-left) -->
+  <div class="hero-dots">
+    <div class="dot active"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
+  </div>
+</section>
+
+<!-- ════════════════ SOLUTIONS ════════════════ -->
+<section class="solutions-section">
+  <div class="section-header">
+    <h2>Solutions</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="solutions-grid">
+    <div class="solution-card">
+      <img src="https://images.unsplash.com/photo-1509391366360-2e959784a276?w=600&q=80" alt="PV System">
+      <div class="solution-overlay"></div>
+      <div class="solution-content">
+        <div class="solution-num">01</div>
+        <div class="solution-title">PV System</div>
+        <div class="solution-line"></div>
+        <div class="solution-desc">Residential and commercial solar panel installations for maximum energy yield.</div>
+      </div>
+    </div>
+    <div class="solution-card">
+      <img src="https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?w=600&q=80" alt="Energy Storage">
+      <div class="solution-overlay"></div>
+      <div class="solution-content">
+        <div class="solution-num">02</div>
+        <div class="solution-title">Energy Storage</div>
+        <div class="solution-line"></div>
+        <div class="solution-desc">Advanced battery systems to store solar energy for use day and night.</div>
+      </div>
+    </div>
+    <div class="solution-card">
+      <img src="https://images.unsplash.com/photo-1593941707882-a5bba14938c7?w=600&q=80" alt="EV Charger">
+      <div class="solution-overlay"></div>
+      <div class="solution-content">
+        <div class="solution-num">03</div>
+        <div class="solution-title">EV Charger</div>
+        <div class="solution-line"></div>
+        <div class="solution-desc">Smart EV charging solutions powered directly by your solar installation.</div>
+      </div>
+    </div>
+    <div class="solution-card">
+      <img src="https://images.unsplash.com/photo-1585771724684-38269d6639fd?w=600&q=80" alt="Smart Energy">
+      <div class="solution-overlay"></div>
+      <div class="solution-content">
+        <div class="solution-num">04</div>
+        <div class="solution-title">Smart Energy Management</div>
+        <div class="solution-line"></div>
+        <div class="solution-desc">AI-powered monitoring and management to optimize every watt of energy.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ SUPPORT ════════════════ -->
+<section class="support-section">
+  <div class="section-header">
+    <h2>Support</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="support-grid">
+    <div class="support-item"><div class="support-icon">🎓</div><div class="support-label">Training</div><div class="support-desc">Training sessions for installers, EPCs and distributors</div></div>
+    <div class="support-item"><div class="support-icon">🛡️</div><div class="support-label">Warranty</div><div class="support-desc">Check and claim your product warranty</div></div>
+    <div class="support-item"><div class="support-icon">💬</div><div class="support-label">FAQ</div><div class="support-desc">Find troubleshooting tips for common problems</div></div>
+    <div class="support-item"><div class="support-icon">📥</div><div class="support-label">Download</div><div class="support-desc">Download helpful resources for your SolarVex products</div></div>
+    <div class="support-item"><div class="support-icon">🛠️</div><div class="support-label">SunDesign</div><div class="support-desc">A modern design tool to build your PV systems</div></div>
+  </div>
+</section>
+
+<!-- ════════════════ STATS ════════════════ -->
+<section class="stats-banner">
+  <div class="stats-banner-bg"></div>
+  <div class="stats-banner-content">
+    <h2>Global Leading Distributed Energy Solution Provider</h2>
+    <p class="stats-sub">SolarVex Global Footprint</p>
+    <div class="stats-grid">
+      <div class="stat-item">
+        <div class="stat-number">170<sub>+</sub></div>
+        <div class="stat-label">Countries With Systems Installed</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">5M<sub>+</sub></div>
+        <div class="stat-label">End Users Connected to Cloud Platform</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">58<sub>+</sub></div>
+        <div class="stat-label">Representative Sites Worldwide</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ MEDIA ════════════════ -->
+<section class="media-section">
+  <div class="media-header">
+    <h2>Media</h2>
+    <a href="#">More →</a>
+  </div>
+  <div class="media-grid">
+    <div class="media-featured">
+      <div class="media-featured-img"><span>🌍</span></div>
+      <div class="media-featured-body">
+        <div class="media-date">May 06, 2026</div>
+        <div class="media-title">Guidelines — Identifying Official SolarVex Channel Products and Authorized Distributors</div>
+      </div>
+    </div>
+    <div class="media-list">
+      <div class="media-item">
+        <div class="media-date">Apr 22, 2026</div>
+        <div class="media-title">How Solar + Storage Increases PV Self-Consumption and Maximizes ROI for Homeowners</div>
+      </div>
+      <div class="media-item">
+        <div class="media-date">Mar 30, 2026</div>
+        <div class="media-title">SolarVex Wraps Up a Strong Q1 Exhibition Season Across Europe, the Middle East, and Africa</div>
+      </div>
+      <div class="media-item">
+        <div class="media-date">Mar 14, 2026</div>
+        <div class="media-title">New Hybrid Inverter Line Unveiled — Smarter, Lighter, and Compatible With All Major Batteries</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ NEWSLETTER ════════════════ -->
+<div class="newsletter">
+  <p>☐ Subscribe to Our Newsletter</p>
+  <div class="newsletter-form">
+    <button class="newsletter-btn">Subscribe Now!</button>
+  </div>
+</div>
+
+<!-- ════════════════ FOOTER ════════════════ -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-col">
+      <h4>About SolarVex</h4>
+      <a href="#">Home</a><a href="#">Contact Us</a><a href="#">Careers</a>
+    </div>
+    <div class="footer-col">
+      <h4>Solutions</h4>
+      <a href="#">PV System</a><a href="#">Energy Storage</a><a href="#">EV Charger</a><a href="#">Smart Energy Management</a>
+    </div>
+    <div class="footer-col">
+      <h4>Products</h4>
+      <a href="#">PV Inverter</a><a href="#">Energy Storage</a><a href="#">EV Charger</a><a href="#">Smart Energy Management</a>
+    </div>
+    <div class="footer-col">
+      <h4>Support</h4>
+      <a href="#">Training</a><a href="#">Warranty</a><a href="#">FAQ</a><a href="#">Download</a><a href="#">Cases</a><a href="#">Community</a>
+    </div>
+    <div class="footer-col">
+      <h4>Follow Us</h4>
+      <div class="footer-social">
+        <div class="social-btn">f</div>
+        <div class="social-btn">▶</div>
+        <div class="social-btn">in</div>
+        <div class="social-btn">✦</div>
+        <div class="social-btn">𝕏</div>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">© SolarVex New Energy — All Rights Reserved</div>
+</footer>
+
+<script>
+  // Dot nav
+  document.querySelectorAll('.dot').forEach((dot) => {
+    dot.addEventListener('click', () => {
+      document.querySelectorAll('.dot').forEach(d => d.classList.remove('active'));
+      dot.classList.add('active');
+    });
+  });
+  let current = 0;
+  setInterval(() => {
+    const dots = document.querySelectorAll('.dot');
+    dots[current].classList.remove('active');
+    current = (current + 1) % dots.length;
+    dots[current].classList.add('active');
+  }, 3500);
+</script>
+</body>
+</html>
